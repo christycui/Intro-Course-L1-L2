@@ -1,15 +1,4 @@
 #This is a calculator.
-require 'pry'
-puts "Hey, I'm a calculator. Give me a number."
-number1 = gets.chomp
-
-puts "Give me a second number."
-number2 = gets.chomp
-
-
-puts "What do you want me to do with them? Enter a letter.\nA) +\nB) -\nC) *\nD) /\n"
-operator = gets.chomp
-result = 0
 
 def operation(number1,number2, operator)
 	o = operator.upcase
@@ -21,11 +10,40 @@ def operation(number1,number2, operator)
 		result = n1 - n2
 	elsif o == 'C'
 		result = n1 * n2
-	else o == 'D'
+	elsif o == 'D'
 		result = n1 / n2
+	elsif o == 'E'
+		result = n1 * n1
+	elsif o == 'F'
+		result = 1 / n1
+	elsif o == 'G'
+		result = "#{n1*100}%"
 	end
 	puts "The result is #{result}."
 end
 
-operation(number1, number2, operator)
+begin 
+	puts "Hey, I'm a calculator. Give me a number."
+	number1 = gets.chomp
+
+	puts "What do you want me to do with it? Enter a letter.\
+			 \nA) +\nB) -\nC) *\nD) /\nE) x^2\nF) 1/x\nG) %"
+	operator = gets.chomp
+
+	if ['A', 'B', 'C', 'D'].include?(operator)
+		puts "Give me a second number."
+		number2 = gets.chomp
+		operation(number1, number2, operator)
+	else
+		operation(number1,number2 = 0,operator)
+	end
+
+	puts "Wanna try again? Y / N"
+	ans = gets.chomp
+end while ans == 'Y'
+
+
+
+
+
 
