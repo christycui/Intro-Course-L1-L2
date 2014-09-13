@@ -30,7 +30,7 @@ begin
        \nA) +\nB) -\nC) *\nD) /\nE) x^2\nF) 1/x\nG) %"
   operator = gets.chomp
 
-  if ['A', 'B', 'C', 'D'].include?(operator)
+  if ['A', 'B', 'C', 'D'].include?(operator.upcase)
     puts "Give me a second number."
     number2 = gets.chomp
     operation(number1, number2, operator)
