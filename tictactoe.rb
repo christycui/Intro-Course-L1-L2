@@ -48,13 +48,13 @@ def user_pick(board)
     user = gets.chomp
   end
   end
-  user
+  board[user.to_i] = 'X'
 end
 
 def computer_pick(board)
   user = user.to_i
   left = board.select {|key, value| value == ' '}
-  left.keys.sample
+  board[left.keys.sample] = 'O'
 end
 def end_game?(board)
   if WIN.select {|p| board[p[0]] ==  "X" and board[p[1]] == "X" and board[p[2]] == "X"} != []
@@ -67,16 +67,14 @@ def end_game?(board)
     return nil
   end
 end
-WIN = [[1, 2, 3], [1, 4, 7], [7, 8, 9], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+WIN = [[1, 2, 3], [1, 4, 7], [7, 8, 9], [3, 6, 9], [1, 5, 9], [3, 5, 7], [2, 5, 8]]
 ans = ''
 begin
   board = initialize_board
   draw_board(board)
   begin
-    user = user_pick(board)
-    board[user.to_i] = 'X'
-    mac = computer_pick(board)
-    board[mac] = 'O'
+    user_pick(board)
+    computer_pick(board)
     draw_board(board)
     status = end_game?(board)
   end until status
