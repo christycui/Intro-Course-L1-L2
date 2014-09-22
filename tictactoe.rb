@@ -21,17 +21,18 @@ def initialize_board
   h
 end
 def draw_board(board)
-puts "       |       |       \n\
-   #{board[1]}   |   #{board[2]}   |   #{board[3]}   \n\
-       |       |       \n\
--------+-------+-------\n\
-       |       |       \n\
-   #{board[4]}   |   #{board[5]}   |   #{board[6]}   \n\
-       |       |       \n\
--------+-------+-------\n\
-       |       |       \n\
-   #{board[7]}   |   #{board[8]}   |   #{board[9]}   \n\
-       |       |       "
+  system("clear")
+  puts "         |       |       \n\
+     #{board[1]}   |   #{board[2]}   |   #{board[3]}   \n\
+         |       |       \n\
+  -------+-------+-------\n\
+         |       |       \n\
+     #{board[4]}   |   #{board[5]}   |   #{board[6]}   \n\
+         |       |       \n\
+  -------+-------+-------\n\
+         |       |       \n\
+     #{board[7]}   |   #{board[8]}   |   #{board[9]}   \n\
+         |       |       "
 end
 
 #game begins
@@ -39,14 +40,14 @@ end
 def user_pick(board)
   puts "Choose a position (1 to 9) to place a piece: "
   user = gets.chomp
-  while not (1..9).include?(user.to_i)
-  if board.select {|key,value| value == 'X' || value == 'O'}.has_key?(user.to_i)
-    puts "It's already picked. Please pick another piece: "
-    user = gets.chomp
-  else
-    puts "That's not a valid position. Choose again: "
-    user = gets.chomp
-  end
+  loop do
+    if board[user.to_i] == ' '
+      board[user.to_i] == 'X'
+      break
+    else
+      puts "That's not a valid position. Choose again: "
+      user = gets.chomp
+    end
   end
   board[user.to_i] = 'X'
 end
