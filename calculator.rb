@@ -4,20 +4,14 @@ def operation(number1,number2, operator)
   o = operator.upcase
   n1 = number1.to_f
   n2 = number2.to_f
-  if o == 'A'
-    result = n1 + n2
-  elsif o == 'B'
-    result = n1 - n2
-  elsif o == 'C'
-    result = n1 * n2
-  elsif o == 'D'
-    result = n1 / n2
-  elsif o == 'E'
-    result = n1 * n1
-  elsif o == 'F'
-    result = 1 / n1
-  elsif o == 'G'
-    result = "#{n1*100}%"
+  result = case o
+    when 'A' then 1 + n2
+    when 'B' then n1 - n2
+    when 'C' then n1 * n2
+    when 'D' then n1 / n2
+    when 'E' then n1 * n1
+    when 'F' then 1 / n1
+    when 'G' then "#{n1*100}%"
   end
   puts "The result is #{result}."
 end
