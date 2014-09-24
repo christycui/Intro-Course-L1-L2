@@ -5,7 +5,7 @@ def operation(number1,number2, operator)
   n1 = number1.to_f
   n2 = number2.to_f
   result = case o
-    when 'A' then 1 + n2
+    when 'A' then n1 + n2
     when 'B' then n1 - n2
     when 'C' then n1 * n2
     when 'D' then n1 / n2
