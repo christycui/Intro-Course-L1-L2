@@ -76,12 +76,6 @@ begin
   dealer_total = calculate_total(dealer)
   deck.delete_if {|card| dealer.include?(card)}
 
-  # check winner
-  if player_total == 21
-    puts "You hit blackjack!! \nYour cards were: #{player.join(" and ")}."
-  elsif player_total > 21
-    puts "You busted! \nYour cards were: #{player.join(" and ")}."
-  end
 
   # no winner yet
   while player_total < 21
@@ -122,6 +116,13 @@ begin
       player_total = calculate_total(player)
       deck.delete_if {|card| player.include?(card)}   
     end
+      # check winner
+    if player_total == 21
+      puts "You hit blackjack!! \nYour cards were: #{player.join(" and ")}."
+    elsif player_total > 21
+      puts "You busted! \nYour cards were: #{player.join(" and ")}."
+    end
+
   end 
 
   puts  "Your total was #{player_total} and dealer's total was #{dealer_total}." 
