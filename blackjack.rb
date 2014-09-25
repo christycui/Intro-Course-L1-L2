@@ -65,6 +65,7 @@ ans = ''
 puts "Let's play some Blackjack! Enter your name to start: "
 name = gets.chomp
 begin
+  system('clear')
   #use six decks to prevent player counting
   deck = new_deck*6
   #player deals two cards
@@ -116,14 +117,13 @@ begin
       player_total = calculate_total(player)
       deck.delete_if {|card| player.include?(card)}   
     end
-      # check winner
-    if player_total == 21
-      puts "You hit blackjack!! \nYour cards were: #{player.join(" and ")}."
-    elsif player_total > 21
-      puts "You busted! \nYour cards were: #{player.join(" and ")}."
-    end
-
   end 
+    # check winner
+  if player_total == 21
+    puts "You hit blackjack!! \nYour cards were: #{player.join(" and ")}."
+  elsif player_total > 21
+    puts "You busted! \nYour cards were: #{player.join(" and ")}."
+  end
 
   puts  "Your total was #{player_total} and dealer's total was #{dealer_total}." 
   ans = play_again? # ask if the player wants to play again
