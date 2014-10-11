@@ -18,14 +18,11 @@ class Participant
     @cards = []
   end
 
-  def choose
-  end
-
-  def hit(deck, participant)
-    puts "Dealing a new card for #{participant.name}..."
+  def hit(deck)
+    puts "Dealing a new card for #{name}..."
     new_card = get_card(deck, 1)
     cards.flatten!
-    puts "#{participant.name}'s new card is #{new_card.join}. #{participant.name}'s total is #{total}."
+    puts "#{name}'s new card is #{new_card.join}. #{name}'s total is #{total}."
   end
 
   def total
@@ -67,22 +64,6 @@ class Player < Participant
     @cards = []
   end
 
-  def choose(blackjack, deck, player, dealer)
-    begin
-      # ask player to hit or stay
-      begin
-        puts "Hit or stay? H/S"
-        choice = gets.chomp
-      end until ['H', 'S'].include?(choice.upcase)
-
-      # if player chooses to hit
-      hit(deck, player) if choice.upcase == 'H' 
-
-      # check winner
-      break if not blackjack.bust_or_win?(player, dealer)
-    end until choice.upcase == 'S'
-  end
-
 end
 
 
@@ -91,12 +72,6 @@ class Dealer < Participant
   def initialize
     @name = 'Dealer'
     @cards = []
-  end
-
-  def choose(deck)
-    while total < Blackjack::DEALER_HIT_MIN
-      hit(deck, self)
-    end
   end
 
 end
@@ -149,6 +124,7 @@ class Blackjack
     @deck = Deck.new(6)
     @dealer = Dealer.new
     @player = Player.new('Player1')
+    welcome_and_set_player_name
   end
 
   # return player's name
@@ -168,13 +144,12 @@ class Blackjack
   def play
     system 'clear'
     # set up the game
-    welcome_and_set_player_name
     player.get_card(deck, 2)
     dealer.get_card(deck, 2)
     display_card
 
     # check if player hit blackjack
-    bust_or_win?(player, dealer)
+    bust_or_win?
     # player's turn
     player_turn  
     # dealer's turn if there isn't a winner
@@ -184,23 +159,43 @@ class Blackjack
   end
 
   def player_turn
-      choice = player.choose(self, deck, player, dealer)
+      begin
+      # ask player to hit or stay
+      begin
+        puts "Hit or stay? H/S"
+        choice = gets.chomp
+      end until ['H', 'S'].include?(choice.upcase)
+
+      # if player chooses to hit
+      player.hit(deck) if choice.upcase == 'H' 
+
+      # check winner
+      break if not bust_or_win?
+    end until choice.upcase == 'S'
       display_card if choice == 'H' 
   end
 
   def dealer_turn
-      dealer.choose(deck)
-      compare_hands if bust_or_win?(dealer, player)
-      display_final_results(dealer, player)
+    while dealer.total < Blackjack::DEALER_HIT_MIN
+      dealer.hit(deck)
+    end
+    compare_hands if bust_or_win?
+    display_final_results
   end
 
   # returns nil if card total >= 21 else returns a string
-  def bust_or_win?(participant1, participant2)
-    if participant1.total == BLACKJACK
-      puts "#{participant1.name} hit blackjack!! #{participant2.name} lost." 
+  def bust_or_win?
+    if player.total == BLACKJACK
+      puts "#{player.name} hit backjack!! #{player.name} lost, dealer lost."
       play_again?
-    elsif participant1.total > BLACKJACK
-      puts "#{participant1.name} busted! #{participant2.name} won."
+    elsif player.total > BLACKJACK
+      puts "#{player.name} busted! #{player.name} lost, dealer won."
+      play_again?
+    elsif dealer.total == BLACKJACK
+      puts "Dealer hit blackjack!! #{player.name} lost." 
+      play_again?
+    elsif dealer.total > BLACKJACK
+      puts "Dealer busted! #{player.name} won."
       play_again?
     else
       "continue"
@@ -216,6 +211,7 @@ class Blackjack
     else 
       puts "It's a tie."
     end
+    display_final_results
     play_again?
   end
 
